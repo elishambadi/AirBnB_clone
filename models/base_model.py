@@ -2,23 +2,27 @@
    Base model to initialize and serialize data
 '''
 
+import datetime
+import uuid
+
 
 class BaseModel():
     id = 0
 
-    def __init__(self, id):
-        Base.id += 1
-        self.id = Base.id
-        self.created_at = 0
-        self.update_at = 0
+    def __init__(self, name=None, my_number=None):
+        self.id = uuid.uuid4()
+        if name is not None:
+            self.name = name
+        if my_number is not None:
+            self.my_number = my_number
+        self.created_at = datetime.datetime.now()
+        self.updated_at = self.created_at
 
-    '''
-       Todo:
-       1. Add json serialization - json.dumps()
-       2. Add json deserialization - json.loads()
-       3. Add string method - __str__
-       4. Add uuid to generate ids
-       5. Add times for update and create
-       6. Add save method
-       7. Add to_dict method
-    '''
+    def str(self):
+        return ("[{:s}] ({:d}) {{:s}}".format(type(self).__name__, self.id, self.to_dict()))
+
+    def save(self):
+        self.updated_at = datetime.datetime.now()
+
+    def to_dict(self):
+        return self.__dict__
