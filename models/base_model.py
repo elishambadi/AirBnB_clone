@@ -1,6 +1,9 @@
-'''
-   Base model to initialize and serialize data
-'''
+#!/usr/bin/python3
+"""
+Module: base_model.py
+This module contains the base class(model) to be inherited for all the models
+Copyright (c) 2022
+"""
 
 
 class BaseModel():
