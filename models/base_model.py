@@ -41,14 +41,21 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
-    def __str__(self) -> str:
+    def __str__(self):
         """
         Return a string representation for model object.
         """
         return '[{}] ({}) {}'.format(self.__class__.__name__, self.id,
                                      self.__dict__)
 
-    def save(self) -> None:
+    def to_string(self):
+        """
+        Return a string representation for model object for use in unittest
+        """
+        return '[{}] ({}) {}'.format(self.__class__.__name__, self.id,
+                                     self.__dict__)
+
+    def save(self):
         """
         Updates the instance attribute 'updated_at' with the current time.
         """
