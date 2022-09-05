@@ -12,8 +12,6 @@ import cmd
 class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
-    intro = "Welcome to Hbnb Console!\n\
-    Type 'help' to view available commands\n"
 
     def do_foo(self, args=None):
         '''Prints foo
@@ -64,21 +62,61 @@ class HBNBCommand(cmd.Cmd):
             id = args_list[1]
             print("Show {} ID: {}".format(class_name, id))
 
-    def do_destroy(self, id):
-        '''Destroy a base model
+    def do_destroy(self, args):
+        '''Destroy a base model\nUsage: destroy <class name> <id>
         '''
-        print("Base model destroyed")
+        args_list = args.split()
 
-    def do_all(self, id):
-        '''Prints all instances of Model given
-           If no params passed, displays all instances of everything
-        '''
-        print("Here's all we have")
+        valid_names = ["BaseModel", "Place", "Amenity", "City", "State"]
+        if len(args_list) == 0:
+            print("** class name missing **")
+        elif args_list[0] not in valid_names and len(args) != 0:
+            print("** class doesn't exist **")
+        elif len(args_list) == 1:
+            print("** instance id missing **")
+        else:
+            class_name = args_list[0]
+            id = args_list[1]
+            """Retrieve model using id given and destroy it
+	    """
+            print("Base model destroyed")
 
-    def do_update(self, id):
-        '''Updates an instance
+    def do_all(self, args):
+        '''Prints all instances of Model\nusage: all <class name>
         '''
-        print("Instance updated")
+        args_list = args
+        valid_names = ["BaseModel", "Place", "Amenity", "City", "State"]
+        if len(args_list) == 0:
+            """Print all instances of all objects
+            """
+        elif args_list not in valid_names and len(args) != 0:
+            print("** class doesn't exist **")
+        else:
+            """
+            Execute BaseModel.all()
+            """
+            print("Here's all we have")
+
+    def do_update(self, args):
+        '''Updates an instance\nUsage: update <class name> <id> <attribute name> "<attribute value>"
+        '''
+        args_list = args.split()
+        valid_names = ["BaseModel", "Place", "Amenity", "City", "State"]
+
+        if len(args_list) == 0:
+            print("** class name missing **")
+        elif args_list[0] not in valid_names and len(args) != 0:
+            print("** class doesn't exist **")
+        elif len(args_list) == 1:
+            print("** instance id missing **")
+        elif len(args_list) == 2:
+            print("** attribute name missing **")
+        elif len(args_list) == 3:
+            print("** attribute value missing **")
+        elif len(args_list) > 4:
+            print("Too many arguments. Check: help update")
+        else:
+            print("Instance updated")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
