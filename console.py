@@ -81,7 +81,7 @@ class HBNBCommand(cmd.Cmd):
             class_name = args_list[0]
             id = args_list[1]
             """Retrieve model using id given and destroy it
-	    """
+            """
             print("Base model destroyed")
 
     def do_all(self, args):
@@ -101,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
             print("Here's all we have")
 
     def do_update(self, args):
-        '''Updates an instance\nUsage: update <class name> <id> <attribute name> "<attribute value>"
+        '''Updates an instance
         '''
         args_list = args.split()
         valid_names = ["BaseModel", "Place", "Amenity", "City", "State"]
@@ -120,6 +120,7 @@ class HBNBCommand(cmd.Cmd):
             print("Too many arguments. Check: help update")
         else:
             print("Instance updated")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

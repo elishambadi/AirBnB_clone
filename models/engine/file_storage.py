@@ -1,67 +1,70 @@
 #!/usr/bin/env python3
+
 """
    FileStorage class
-i   Does serialization and deserialization of data to JSON files
+   Does serialization and deserialization of data to JSON files
+   Classes:
+   - FileStorage
 """
+
 import sys
 import json
 
-
 sys.path.append("/home/elisha/Documents/AirBnB_clone/models")
 
-from base_model import BaseModel
 
 class FileStorage():
     """
-i       File storade
+       File storage
        Attrs:
        - file_path: private, shows path to storage file
        - objects: private, dict of all objects
-       
+
        Methods
        - all()
        - new()
+       - save()
+       - reload
     """
 
-    __file_path = ""
+    __file_path = "/home/elisha/Documents/AirBnB_clone/models/engine/file.json"
     __objects = {}
     writes = 0
 
     def __init__(self):
-        pass
+        self.__objects = {}
+
+    @property
+    def file_path(self):
+        return self.__file_path
+
+    def test(self):
+        print("File storage is accessible")
 
     def all(self):
-        return __objects
+        return self.__objects
 
     def new(self, obj):
         key = type(obj).__name__ + "." + obj.id
-        dict_ = {}
-        dict_[key] = obj.to_dict()
-        json_obj = json.dumps(dict_, indent=4)
+        self.__objects[key] = obj.to_dict()
 
+    def save(self, obj):
+        # add saved obj to objects dict
+        key = type(obj).__name__ + "." + obj.id
+        self.__objects[key] = obj.to_dict()
 
-	#Remove last and first digits
+        # Serialize everything to json
+        json_obj = json.dumps(self.__objects)
+        with open(self.file_path, 'w+') as f1:
+            f1.write(json_obj)
 
-        #Add this JSON object to a storage file
-        f= open("file.json", 'a')
-        if self.writes > 0:
-            f.write(", ")
-            f.write(json_obj)
-        else:
-            f.write(json_obj)
+    def reload(self):
+        try:
+            with open(self.file_path, 'r') as f1:
+                self.__objects = json.load(f1)
+        except FileNotFoundError:
+            pass
 
-        f.close()
-        self.writes += 1
 
 if __name__ == "__main__":
     print("Testing File store...")
-
-    base = BaseModel()
-    store = FileStorage()
-
-    base.number = 2000
-
-    print(json.dumps(base.to_dict(), indent=4))
-    store.new(base)
-    store.new(base)
-    store.new(base)

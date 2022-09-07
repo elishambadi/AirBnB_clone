@@ -5,6 +5,7 @@ This module contains the base class(model) to be inherited for all the models
 Copyright (c) 2022
 """
 from datetime import datetime
+from models import storage
 import uuid
 
 
@@ -23,6 +24,8 @@ class BaseModel:
         """
         Initialize instance attributes id, created_at, updated_at
         """
+        self.id = str(uuid.uuid4())  # id must be initialized
+
         if kwargs:
             for key, value in kwargs.items():
                 if key == 'created_at':
@@ -37,9 +40,9 @@ class BaseModel:
                     setattr(self, key, value)
 
         else:
-            self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
         """
@@ -60,6 +63,7 @@ class BaseModel:
         Updates the instance attribute 'updated_at' with the current time.
         """
         self.updated_at = datetime.now()
+        storage.save(self)
 
     def to_dict(self):
         """
