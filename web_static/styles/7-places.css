@@ -1,0 +1,18 @@
+.container .places h1{
+    text-align: left;
+    font-size: 30px;
+}
+.container .places .row{
+    display:flex;
+}
+.container .places article{
+    width: 390px;
+    padding: 20px;
+    border: #FF5A5F solid 1px;
+    border-radius: 1px;
+    margin: 20px auto;
+}
+.container .places article h2{
+    font-size: 30px;
+    text-align: center;
+}
