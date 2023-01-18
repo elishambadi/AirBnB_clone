@@ -1,6 +1,0 @@
-#!/usr/bin/env python3
-
-student = {'name': 'Elisha', 'age':22, 'courses': ['Math', 'CompSci']}
-for key, value in student.items():
-    print(key, value)
-print(student.items())

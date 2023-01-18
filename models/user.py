@@ -1,18 +1,11 @@
-from base import BaseModel
-
-'''
-   User class - user e.g. Allen
-'''
+#!/usr/bin/python3
+"""This module defines a class User"""
+from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    def __init__(self, name=None):
-        super.__init__()
-        if name is not None:
-            self.name = name
-
-    '''
-       To-do:
-       1. Name - add getter, setter, validation
-       2. Add id
-    '''
+    """This class defines a user by various attributes"""
+    email = ''
+    password = ''
+    first_name = ''
+    last_name = ''

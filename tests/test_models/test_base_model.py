@@ -1,58 +1,99 @@
-from base_model import BaseModel
-
+#!/usr/bin/python3
+""" """
+from models.base_model import BaseModel
 import unittest
-import sys
+import datetime
 from uuid import UUID
-from datetime import datetime
+import json
+import os
 
-sys.path.append('/home/elisha/Documents/AirBnB_clone/models')
 
+class test_basemodel(unittest.TestCase):
+    """ """
 
-class TestBaseModel(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = 'BaseModel'
+        self.value = BaseModel
 
-    global base_model1
-    base_model1 = BaseModel()
+    def setUp(self):
+        """ """
+        pass
+
+    def tearDown(self):
+        try:
+            os.remove('file.json')
+        except:
+            pass
+
+    def test_default(self):
+        """ """
+        i = self.value()
+        self.assertEqual(type(i), self.value)
+
+    def test_kwargs(self):
+        """ """
+        i = self.value()
+        copy = i.to_dict()
+        new = BaseModel(**copy)
+        self.assertFalse(new is i)
+
+    def test_kwargs_int(self):
+        """ """
+        i = self.value()
+        copy = i.to_dict()
+        copy.update({1: 2})
+        with self.assertRaises(TypeError):
+            new = BaseModel(**copy)
+
+    def test_save(self):
+        """ Testing save """
+        i = self.value()
+        i.save()
+        key = self.name + "." + i.id
+        with open('file.json', 'r') as f:
+            j = json.load(f)
+            self.assertEqual(j[key], i.to_dict())
+
+    def test_str(self):
+        """ """
+        i = self.value()
+        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
+                         i.__dict__))
+
+    def test_todict(self):
+        """ """
+        i = self.value()
+        n = i.to_dict()
+        self.assertEqual(i.to_dict(), n)
+
+    def test_kwargs_none(self):
+        """ """
+        n = {None: None}
+        with self.assertRaises(TypeError):
+            new = self.value(**n)
+
+    def test_kwargs_one(self):
+        """ """
+        n = {'Name': 'test'}
+        with self.assertRaises(KeyError):
+            new = self.value(**n)
 
     def test_id(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.id), str)
 
-        """
-           Checks if ID is valid
-        """
-        self.assertTrue(UUID(base_model1.id, version=4))
+    def test_created_at(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.created_at), datetime.datetime)
 
-    def test_date_format(self):
-        """
-           Checks if date is in correct format
-        """
-        self.assertEqual("Foo", "Foo")
-
-    def test_assign_num(self):
-        """
-           Tests assign number
-        """
-        base_model1.my_number = 89
-        self.assertEqual(base_model1.my_number, 89)
-
-    def test_print_model(self):
-        self.assertEqual(base_model1.to_string(), '[{}] ({}) {}'
-                         .format(base_model1.__class__.__name__,
-                                 base_model1.id,
-                                 base_model1.__dict__))
-
-    def test_to_dict(self):
-        dict_ = {}
-        dict_['__class__'] = base_model1.__class__.__name__
-
-        for key, value in base_model1.__dict__.items():
-            # check if value is of type datetime
-            if isinstance(value, datetime):
-                dict_[key] = value.isoformat()
-            else:
-                dict_[key] = value
-
-        self.assertEqual(base_model1.to_dict(), dict_)
-
-
-if __name__ == '__main__':
-
-    unittest.main()
+    def test_updated_at(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.updated_at), datetime.datetime)
+        n = new.to_dict()
+        new = BaseModel(**n)
+        self.assertFalse(new.created_at == new.updated_at)

@@ -1,17 +1,18 @@
-from base import BaseModel
-'''
-   Place class - place e.g. City Park
-'''
+#!/usr/bin/python3
+""" Place Module for HBNB project """
+from models.base_model import BaseModel
 
 
 class Place(BaseModel):
-    def __init__(self, name=None):
-        super.__init__()
-        if name is not None:
-            self.name = name
-
-    '''
-       To-do:
-       1. Name - add getter, setter, validation
-       2. Add id
-    '''
+    """ A place to stay """
+    city_id = ""
+    user_id = ""
+    name = ""
+    description = ""
+    number_rooms = 0
+    number_bathrooms = 0
+    max_guest = 0
+    price_by_night = 0
+    latitude = 0.0
+    longitude = 0.0
+    amenity_ids = []
